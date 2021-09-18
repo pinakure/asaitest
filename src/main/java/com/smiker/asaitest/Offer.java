@@ -9,7 +9,7 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 
 public class Offer {
-	private enum Types {
+	private enum OfferTypes {
 		FREE_UNIT, // each X units, you get a free unit of another or the same fruit
 		
 	}
