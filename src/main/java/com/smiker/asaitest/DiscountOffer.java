@@ -4,16 +4,17 @@ import java.util.ArrayList;
 
 /*
  * This class defines the following offer archetype:
- *  	
- *  	"buy 3 oranges and pay only 2"
- * */
+ *  
+ * 		"buy 5 oranges and get a 3€ discount" 
+ *  
+ */
 
-public class FreeItemOffer extends BaseOffer {
 
-	public FreeItemOffer(ArrayList<Article> targets, int target_quantity, String name) {
+public class DiscountOffer extends BaseOffer {
+	
+	public DiscountOffer(ArrayList<Article> targets, int target_quantity, String name) {
 		super(targets, target_quantity, name);
 	}
-	
 
 	@Override
 	public boolean evaluate(PurchaseRow row) {
@@ -21,11 +22,10 @@ public class FreeItemOffer extends BaseOffer {
 		return false;
 	}
 
-	
 	@Override
 	public void apply(Purchase purchase, PurchaseRow row) {
 		// Call offer logic
-		System.out.println("Free Item Offer applied: "+this.getName());
+		System.out.println("Discount Offer applied: "+this.getName());
 	}
-	
+
 }

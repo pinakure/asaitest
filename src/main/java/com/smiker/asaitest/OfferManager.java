@@ -10,7 +10,7 @@ import java.util.ArrayList;
 
 public class OfferManager {
 	
-	public static ArrayList<BaseOffer> offers;
+	public static ArrayList<BaseOffer> offers = new ArrayList<BaseOffer>();
 	
 
 	private static String name; 
@@ -42,9 +42,6 @@ public class OfferManager {
 				offers.add(offer); 
 				line = br.readLine(); 
 			}
-			sb.setLength(0);
-			sb.append(offers.size()).append(" offers loaded from ").append(fileName);
-			System.out.println(sb.toString());
 		} catch (IOException ioe) { 
 			sb.setLength(0);
 			sb.append("File ").append(fileName).append(" was not found");
@@ -52,20 +49,30 @@ public class OfferManager {
 		} return offers; 
 	}
 	
-	public static ArrayList<OfferManager> findOffer(PurchaseRow pr) {
+	public static ArrayList<BaseOffer> findOffer(PurchaseRow pr) {
 		// returns Offer[] if one ore more an offer applies to the purchaseRow
-		return null;
+		ArrayList<BaseOffer> payload = new ArrayList<BaseOffer>();
+		for(BaseOffer o : OfferManager.offers) {
+			if(o.evaluate(pr)) payload.add(o);
+		}
+		return payload;
 	}
 	
 	public static Purchase processPurchase(Purchase purchase) {
 		for(PurchaseRow pr : purchase.getRows()) {
-			ArrayList<OfferManager> offers = findOffer(pr);
-			if(offers==null) System.out.println(pr);				
+			ArrayList<BaseOffer> offers = findOffer(pr);
+			if(offers.size()==0) System.out.println(pr);				
 			else {
-				//applyOffer(purchase, pr);
-				for(OfferManager o : offers) {
-					// Call offer logic
-					System.out.println("Offer applied: "+o.getName());
+				for(BaseOffer o : offers) {
+					switch(o.getType()) {
+						case DISCOUNT:
+							((DiscountOffer)o).apply(purchase, pr);
+							break;
+						case FREEITEM:
+							((FreeItemOffer)o).apply(purchase, pr);
+							break;
+					}
+					
 				}
 			}
 		}

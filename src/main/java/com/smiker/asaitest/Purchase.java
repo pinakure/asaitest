@@ -39,9 +39,9 @@ public class Purchase {
 				skip_header = false;
 				line = br.readLine(); 
 			}
-			sb.setLength(0);
-			sb.append(purchase.getRows().size()).append(" purchase rows loaded from ").append(fileName);
-			System.out.println(sb.toString());
+			//sb.setLength(0);
+			//sb.append(purchase.getRows().size()).append(" purchase rows loaded from ").append(fileName);
+			//System.out.println(sb.toString());
 		} catch (IOException ioe) { 
 			sb.setLength(0);
 			sb.append("File ").append(fileName).append(" was not found");
