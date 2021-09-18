@@ -13,7 +13,7 @@ import java.util.ArrayList;
 
 public class FruitShop {
 	
-	private static ArrayList<Offer> 	offers 	= new ArrayList<Offer>();
+	private static ArrayList<OfferManager> 	offers 	= new ArrayList<OfferManager>();
 	private static Purchase 			purchase;
 	
 	private static boolean validArguments(String[] args) {
@@ -37,7 +37,7 @@ public class FruitShop {
 		String purchase_file = args[1];
 		Warehouse.setArticles(Article.fromCSV( articles_file ));
 		FruitShop.purchase = Purchase.fromCSV( purchase_file );
-		FruitShop.offers   = Offer.fromCSV( "offers.csv" );
+		FruitShop.offers   = OfferManager.fromCSV( "offers.csv" );
 		receipt();
 	}
 	
@@ -53,7 +53,7 @@ public class FruitShop {
 		System.out.println("  Purchase Date:     "+getDate());
 		System.out.println(BAR);
 		
-		FruitShop.purchase = Offer.processPurchase(purchase);
+		FruitShop.purchase = OfferManager.processPurchase(purchase);
 		
 		System.out.println(BAR);
 		System.out.println(

@@ -48,6 +48,20 @@ public class PurchaseRow {
 	public void setPrice(Float price) {
 		this.price = price;
 	}
+
+	@Override
+	public String toString() {
+		return String.format(
+				"%16s x %3d %14.2f", 
+				this.getArticle().getName(), 
+				this.getQuantity(), 
+				this.getPrice()
+			)
+			+ "\n" +
+			String.format("%39.2f", this.getQuantity() * this.getPrice()
+		);
+	}
+	
 	
 	
 }

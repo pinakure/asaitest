@@ -8,20 +8,20 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 
-public class Offer {
-	private enum OfferTypes {
-		FREE_UNIT, // each X units, you get a free unit of another or the same fruit
-		
-	}
+public class OfferManager {
+	
+	public static ArrayList<BaseOffer> offers;
 	
 
 	private static String name; 
+
+	//public Offer(OfferType type, String condition)
 	
-	public static Offer fromMetadata(String[] metadata) {
+	public static OfferManager fromMetadata(String[] metadata) {
 		try {
 			String 	type		= metadata[0]; 
 			String 	condition   = metadata[1]; 
-			return null; //new Purchase(type, condition);
+			return null;//new Offer(type, condition);
 		} catch(Exception e) {
 			System.out.println(e);
 			return null;
@@ -29,8 +29,8 @@ public class Offer {
 	}
 	
 
-	public static ArrayList<Offer> fromCSV(String fileName) {
-		ArrayList<Offer> offers = new ArrayList<Offer>(); 
+	public static ArrayList<OfferManager> fromCSV(String fileName) {
+		ArrayList<OfferManager> offers = new ArrayList<OfferManager>(); 
 		Path pathToFile = Paths.get(fileName); 
 		StringBuilder sb = new StringBuilder();
 		try { 
@@ -38,7 +38,7 @@ public class Offer {
 			String line = br.readLine(); 
 			while (line != null) { 
 				String[] attributes = line.split(","); 
-				Offer offer = Offer.fromMetadata(attributes); 
+				OfferManager offer = OfferManager.fromMetadata(attributes); 
 				offers.add(offer); 
 				line = br.readLine(); 
 			}
@@ -52,30 +52,19 @@ public class Offer {
 		} return offers; 
 	}
 	
-	public static ArrayList<Offer> findOffer(PurchaseRow pr) {
+	public static ArrayList<OfferManager> findOffer(PurchaseRow pr) {
 		// returns Offer[] if one ore more an offer applies to the purchaseRow
 		return null;
 	}
 	
 	public static Purchase processPurchase(Purchase purchase) {
 		for(PurchaseRow pr : purchase.getRows()) {
-			ArrayList<Offer> offers = findOffer(pr);
-			if(offers==null) {
-				Article article = pr.getArticle();
-				String 	caption = article.getName();
-				System.out.println(
-					String.format(
-						"%16s x %3d %14.2f", 
-						article.getName(), 
-						pr.getQuantity(), 
-						pr.getPrice()
-					)
-					+ "\n" +
-					String.format("%39.2f", pr.getQuantity()*pr.getPrice())
-				);				
-			} else {
+			ArrayList<OfferManager> offers = findOffer(pr);
+			if(offers==null) System.out.println(pr);				
+			else {
 				//applyOffer(purchase, pr);
-				for(Offer o : offers) {
+				for(OfferManager o : offers) {
+					// Call offer logic
 					System.out.println("Offer applied: "+o.getName());
 				}
 			}
@@ -90,8 +79,14 @@ public class Offer {
 
 
 	public static void setName(String name) {
-		Offer.name = name;
+		OfferManager.name = name;
 	}
+
 	
+	public static void initializeOffers() {
+		
+		
+		
+	}
 	
 }
